@@ -1,0 +1,58 @@
+{
+  "name": "rpcedge-dlmm-ref",
+  "version": "0.1.0",
+  "private": false,
+  "description": "Minimal Meteora DLMM paper-watch reference for rpc edge: doctor → accountSubscribe a pool → paper log. Not financial advice.",
+  "type": "module",
+  "license": "MIT",
+  "author": "rpc edge <rpcedge@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rpc-edge/rpcedge-dlmm-ref.git"
+  },
+  "homepage": "https://github.com/rpc-edge/rpcedge-dlmm-ref",
+  "bugs": {
+    "url": "https://github.com/rpc-edge/rpcedge-dlmm-ref/issues"
+  },
+  "bin": {
+    "rpcedge-dlmm-ref": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    ".env.example"
+  ],
+  "keywords": [
+    "solana",
+    "dlmm",
+    "meteora",
+    "rpc-edge",
+    "rpcedge",
+    "paper-trading",
+    "reference",
+    "accountSubscribe"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "tsx --test src/**/*.test.ts",
+    "prepublishOnly": "pnpm build && pnpm test",
+    "start": "tsx src/index.ts",
+    "watch": "tsx src/index.ts",
+    "doctor": "tsx src/doctor-check.ts",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@solana/web3.js": "^1.98.0",
+    "rpcedge-sdk": "^0.1.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  }
+}
