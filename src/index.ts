@@ -9,7 +9,6 @@
 import { loadEnvFile } from "./load-env.js";
 loadEnvFile();
 
-import { RpcEdge } from "rpcedge-sdk";
 import { loadConfig, DEFAULT_WATCH_POOL, DLMM_PROGRAM_ID } from "./config.js";
 import { runDoctor } from "./doctor-check.js";
 import { watchPool, statsSnapshot } from "./watch.js";
@@ -49,7 +48,7 @@ async function main(): Promise<void> {
   }
 
   printStep(1, 2, "doctor");
-  const edge = (await runDoctor()) ?? (await RpcEdge.fromEnv());
+  const edge = await runDoctor();
   console.log("");
 
   printStep(2, 2, "watch");
