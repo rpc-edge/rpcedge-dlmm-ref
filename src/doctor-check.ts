@@ -6,17 +6,14 @@ import { loadEnvFile } from "./load-env.js";
 loadEnvFile();
 
 import { RpcEdge } from "rpcedge-sdk";
-import { spawnSync } from "node:child_process";
 import { DEFAULT_WATCH_POOL } from "./config.js";
 import {
   printBanner,
   printDoctorReport,
   printWarn,
-  jsonMode,
-  emit,
 } from "./ui.js";
 
-export async function runDoctor(): Promise<RpcEdge | undefined> {
+export async function runDoctor(): Promise<RpcEdge> {
   if (process.env.RPCEDGE_KEY?.trim()) {
     const edge = await RpcEdge.fromEnv();
     const report = await edge.doctor();
@@ -25,24 +22,6 @@ export async function runDoctor(): Promise<RpcEdge | undefined> {
       throw new Error("doctor failed - fix auth/health before watching");
     }
     return edge;
-  }
-
-  const viaCli = spawnSync("npx", ["--yes", "rpcedge@latest", "doctor"], {
-    encoding: "utf8",
-    env: process.env,
-    stdio: ["ignore", "pipe", "pipe"],
-    timeout: 45_000,
-  });
-
-  if (viaCli.status === 0 && viaCli.stdout?.trim()) {
-    if (jsonMode()) {
-      emit({ type: "doctor", source: "cli", summary: viaCli.stdout.trim() });
-    } else {
-      for (const line of viaCli.stdout.trim().split("\n")) {
-        console.log(line.startsWith(" ") ? line : `  ${line}`);
-      }
-    }
-    return undefined;
   }
 
   printWarn("no RPCEDGE_KEY - public baseline via SDK");
